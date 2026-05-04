@@ -6,6 +6,7 @@
 | | |
 |---|---|
 | **Students** | Shorooq Abuzaid (202257840) · Yaqin Shawkan (202255400) |
+| **Section & Team#** | F12 - Team 20 |
 | **Date** | April 27, 2026 |
 | **AWS Region** | `us-east-1` |
 | **DVSA URL** | http://dvsa-website-446988880983-us-east-1.s3-website.us-east-1.amazonaws.com |
