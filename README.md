@@ -84,11 +84,6 @@ dvsa-vulnerability-report/
 │
 ├── README.md                          ← This file
 │
-├── docs/
-│   ├── DVSA_Report.pdf                ← Full written report (all 10 parts per vuln)
-│   ├── DVSA_Presentation.pptx         ← Presentation slides
-│   └── demo-script.md                 ← Demo video narration script
-│
 ├── fixes/
 │   ├── L01-event-injection/
 │   │   ├── before-order-manager.js
