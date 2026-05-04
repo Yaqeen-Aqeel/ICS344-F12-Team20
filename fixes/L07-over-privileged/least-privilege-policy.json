@@ -1,0 +1,57 @@
+{
+  "_comment": "Lesson 7 Fix — Least-Privilege IAM Policy for DVSA-SEND-RECEIPT-EMAIL",
+  "_instructions": [
+    "1. Go to IAM → Roles → serverlessrepo-OWASP-DVSA-SendReceiptFunctionRole-[ID]",
+    "2. Remove: AmazonSESFullAccess (AWS managed policy)",
+    "3. Replace the broad S3 inline policy with the SES + S3 statement below",
+    "4. Replace the broad DynamoDB inline policy with the DynamoDB statement below",
+    "5. Keep: AWSLambdaBasicExecutionRole (needed for CloudWatch logging)"
+  ],
+
+  "Version": "2012-10-17",
+  "Statement": [
+
+    {
+      "Sid": "SESRestrictedSend",
+      "_before": "AmazonSESFullAccess — allowed ALL SES actions on ALL resources",
+      "_after": "Only ses:SendEmail on verified identities in this account",
+      "Effect": "Allow",
+      "Action": [
+        "ses:SendEmail",
+        "ses:SendRawEmail"
+      ],
+      "Resource": "arn:aws:ses:us-east-1:446988880983:identity/*"
+    },
+
+    {
+      "Sid": "S3ReceiptsBucketOnly",
+      "_before": "arn:aws:s3:::* and arn:aws:s3:::*/* — ALL buckets in account",
+      "_after": "Only the specific DVSA website/receipts bucket",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::dvsa-website-446988880983-us-east-1",
+        "arn:aws:s3:::dvsa-website-446988880983-us-east-1/*"
+      ]
+    },
+
+    {
+      "Sid": "DynamoDBOrdersTableOnly",
+      "_before": "arn:aws:dynamodb:us-east-1:446988880983:table/* — ALL tables",
+      "_after": "Only the specific DVSA-ORDERS-DB table",
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:GetItem",
+        "dynamodb:Query"
+      ],
+      "Resource": [
+        "arn:aws:dynamodb:us-east-1:446988880983:table/DVSA-ORDERS-DB",
+        "arn:aws:dynamodb:us-east-1:446988880983:table/DVSA-ORDERS-DB/index/*"
+      ]
+    }
+
+  ]
+}
